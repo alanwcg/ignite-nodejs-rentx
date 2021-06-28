@@ -1,23 +1,23 @@
 import crypto from 'crypto';
 import multer from 'multer';
-import { resolve } from 'path';
+import path from 'path';
 
-interface IReturn {
-  storage: multer.StorageEngine;
-}
+const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 
-function upload(folder: string): IReturn {
-  return {
-    storage: multer.diskStorage({
-      destination: resolve(__dirname, '..', '..', folder),
-      filename: (request, file, callback) => {
-        const fileHash = crypto.randomBytes(16).toString('hex');
-        const fileName = `${fileHash}-${file.originalname}`;
+// interface IReturn {
+//   storage: multer.StorageEngine;
+// }
 
-        return callback(null, fileName);
-      },
-    }),
-  };
-}
+export default {
+  tmpFolder,
 
-export default upload;
+  storage: multer.diskStorage({
+    destination: tmpFolder,
+    filename: (request, file, callback) => {
+      const fileHash = crypto.randomBytes(16).toString('hex');
+      const fileName = `${fileHash}-${file.originalname}`;
+
+      return callback(null, fileName);
+    },
+  }),
+};

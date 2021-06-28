@@ -20,8 +20,8 @@ class SendForgotPasswordMailService {
     @inject('DayjsDateProvider')
     private dayjsDateProvider: IDateProvider,
 
-    @inject('EtherealMailProvider')
-    private etherealMailProvider: IMailProvider,
+    @inject('MailProvider')
+    private mailProvider: IMailProvider,
   ) {}
 
   async execute(email: string): Promise<void> {
@@ -55,7 +55,7 @@ class SendForgotPasswordMailService {
       link: `${process.env.FORGOT_MAIL_URL}${token}`,
     };
 
-    await this.etherealMailProvider.sendMail({
+    await this.mailProvider.sendMail({
       to: email,
       subject: 'Recuperação de senha',
       variables,
