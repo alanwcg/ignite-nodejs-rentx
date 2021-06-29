@@ -13,6 +13,7 @@ import AppError from '@shared/errors/AppError';
 import createConnection from '@shared/infra/typeorm';
 
 import swaggerFile from '../../../swagger.json';
+import rateLimiter from './middlewares/rateLimiter';
 import router from './routes';
 
 createConnection();
@@ -21,6 +22,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(rateLimiter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
